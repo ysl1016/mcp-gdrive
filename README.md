@@ -80,8 +80,8 @@ To integrate this server with the desktop app, add the following to your app's s
     "gdrive": {
       "command": "npx",
       "args": [
-        "-y"
-        @isaacphi/mcp-gdrive
+        "-y",
+        "@isaacphi/mcp-gdrive"
       ],
       "env": {
         "CLIENT_ID": "<CLIENT_ID>",
