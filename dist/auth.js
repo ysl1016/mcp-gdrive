@@ -21,7 +21,7 @@ function ensureCredsDirectory() {
     }
 }
 const credentialsPath = path.join(CREDS_DIR, ".gdrive-server-credentials.json");
-async function authenticateWithTimeout(keyfilePath, SCOPES, timeoutMs = 3000) {
+async function authenticateWithTimeout(keyfilePath, SCOPES, timeoutMs = 30000) {
     const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Authentication timed out")), timeoutMs));
     const authPromise = authenticate({
         keyfilePath,
