@@ -83,7 +83,7 @@ You will be prompted to authenticate with your browser. You must authenticate wi
 
 Your OAuth token is saved in the directory specified by the `GDRIVE_CREDS_DIR` environment variable.
 
-![Authentication Prompt](https://imgur.com/a/dUNT7xb)
+![Authentication Prompt](https://i.imgur.com/TbyV6Yq.png)
 
 ### Usage with Desktop App
 
