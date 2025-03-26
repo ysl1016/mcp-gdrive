@@ -128,7 +128,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 async function startServer() {
   try {
-    console.log("Starting server");
+    console.error("Starting server");
     
     // Add this line to force authentication at startup
     await ensureAuth(); // This will trigger the auth flow if no valid credentials exist
