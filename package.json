@@ -1,22 +1,24 @@
 {
-  "name": "@isaacphi/mcp-gdrive",
-  "version": "0.2.0",
-  "description": "MCP server for interacting with Google Drive and Sheets",
+  "name": "@ysl1016/mcp-gdrive",
+  "version": "1.0.0",
+  "description": "Fixed MCP server for interacting with Google Drive and Sheets - with stdout/stderr separation",
   "license": "MIT",
-  "author": "Phil Isaac",
-  "homepage": "https://github.com/isaacphi/mcp-gdrive",
-  "bugs": "https://github.com/isaacphi/mcp-gdrive/issues",
+  "author": "Phil Isaac (Original) / ysl1016 (Fixed)",
+  "homepage": "https://github.com/ysl1016/mcp-gdrive",
+  "bugs": "https://github.com/ysl1016/mcp-gdrive/issues",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/isaacphi/mcp-gdrive.git"
+    "url": "git+https://github.com/ysl1016/mcp-gdrive.git"
   },
   "keywords": [
     "Google Drive",
     "Google Sheets",
     "MCP",
     "Model Context Protocol",
-    "AI"
+    "AI",
+    "Claude",
+    "Fixed"
   ],
   "bin": {
     "mcp-gdrive": "dist/index.js"
