@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/ysl1016/mcp-gdrive.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "Google Drive",
     "Google Sheets",
