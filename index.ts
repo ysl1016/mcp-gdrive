@@ -17,6 +17,13 @@ import {
 import { tools } from "./tools/index.js";
 import { InternalToolResponse } from "./tools/types.js";
 
+// Disable console.log to prevent stdout pollution
+// This is the key fix for the JSON parsing issue
+const originalConsoleLog = console.log;
+console.log = function() {
+  // Do nothing - suppress all console.log output
+};
+
 const drive = google.drive("v3");
 
 const server = new Server(
@@ -128,7 +135,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 async function startServer() {
   try {
-    console.error("Starting server");
+    // Replace console.log with console.error
+    // No logging to stdout at all to prevent JSON parsing issues
+    console.error("Starting server - logs redirected to stderr only");
     
     // Add this line to force authentication at startup
     await ensureAuth(); // This will trigger the auth flow if no valid credentials exist
@@ -145,4 +154,4 @@ async function startServer() {
 }
 
 // Start server immediately
-startServer().catch(console.error);
+startServer().catch((err) => console.error("Server startup error:", err));
