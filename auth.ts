@@ -66,16 +66,14 @@ async function authenticateAndSaveCredentials() {
 
   try {
     const { credentials } = await auth.refreshAccessToken();
-    console.error("Received new credentials with scopes:", credentials.scope);
+    // Reduce logging - don't output credential details
+    console.error("Received new credentials");
 
     // Ensure directory exists before saving
     ensureCredsDirectory();
 
     fs.writeFileSync(credentialsPath, JSON.stringify(credentials, null, 2));
-    console.error(
-      "Credentials saved successfully with refresh token to:",
-      credentialsPath,
-    );
+    console.error("Credentials saved successfully");
     auth.setCredentials(credentials);
     return auth;
   } catch (error) {
@@ -100,7 +98,8 @@ export async function loadCredentialsQuietly() {
 
   try {
     const savedCreds = JSON.parse(fs.readFileSync(credentialsPath, "utf-8"));
-    console.error("Loaded existing credentials with scopes:", savedCreds.scope);
+    // Reduce verbose logging
+    console.error("Loaded existing credentials");
     oauth2Client.setCredentials(savedCreds);
 
     const expiryDate = new Date(savedCreds.expiry_date);
@@ -108,21 +107,16 @@ export async function loadCredentialsQuietly() {
     const fiveMinutes = 5 * 60 * 1000;
     const timeToExpiry = expiryDate.getTime() - now.getTime();
 
-    console.error("Token expiry status:", {
-      expiryDate: expiryDate.toISOString(),
-      timeToExpiryMinutes: Math.floor(timeToExpiry / (60 * 1000)),
-      hasRefreshToken: !!savedCreds.refresh_token,
-    });
-
+    // Reduce logging - only log critical info
     if (timeToExpiry < fiveMinutes && savedCreds.refresh_token) {
-      console.error("Attempting to refresh token using refresh_token");
+      console.error("Token expiring soon - refreshing");
       try {
         const response = await oauth2Client.refreshAccessToken();
         const newCreds = response.credentials;
         ensureCredsDirectory();
         fs.writeFileSync(credentialsPath, JSON.stringify(newCreds, null, 2));
         oauth2Client.setCredentials(newCreds);
-        console.error("Token refreshed and saved successfully");
+        console.error("Token refreshed successfully");
       } catch (error) {
         console.error("Failed to refresh token:", error);
         return null;
@@ -154,13 +148,10 @@ export function setupTokenRefresh() {
   return setInterval(
     async () => {
       try {
-        console.error("Running scheduled token refresh check");
+        // Reduce logging during background operations
         const auth = await loadCredentialsQuietly();
         if (auth) {
           google.options({ auth });
-          console.error("Completed scheduled token refresh");
-        } else {
-          console.error("Skipping token refresh - no valid credentials");
         }
       } catch (error) {
         console.error("Error in automatic token refresh:", error);
