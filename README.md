@@ -1,8 +1,16 @@
-# Google Drive server
+# Google Drive MCP Server (Fixed Version)
 
-This MCP server integrates with Google Drive to allow listing, reading, and searching files, as well as the ability to read and write to Google Sheets.
+This is a fixed version of the MCP server that integrates with Google Drive to allow listing, reading, and searching files, as well as the ability to read and write to Google Sheets. The key improvement in this version is proper stdout/stderr handling that prevents JSON parsing errors in the Claude app.
 
-This project includes code originally developed by Anthropic, PBC, licensed under the MIT License from [this repo](https://github.com/modelcontextprotocol/servers/tree/main/src/gdrive).
+This project includes code originally developed by Anthropic, PBC, licensed under the MIT License from [this repo](https://github.com/modelcontextprotocol/servers/tree/main/src/gdrive), with further improvements by [isaacphi/mcp-gdrive](https://github.com/isaacphi/mcp-gdrive).
+
+## What's Fixed
+
+This version fixes the following issues:
+
+1. **JSON Parsing Error**: Redirects all console logs to stderr to prevent the "Unexpected token 'S', "Starting server" is not valid JSON" error in Claude.
+2. **Reduced Logging**: Minimizes verbose logging that might interfere with the MCP protocol communication.
+3. **Improved Reliability**: Better error handling and separation of log messages from the JSON-RPC communication channel.
 
 ## Components
 
@@ -85,16 +93,16 @@ Your OAuth token is saved in the directory specified by the `GDRIVE_CREDS_DIR` e
 
 ![Authentication Prompt](https://i.imgur.com/TbyV6Yq.png)
 
-### Usage with Desktop App
+### Usage with Claude Desktop App
 
-To integrate this server with the desktop app, add the following to your app's server configuration:
+To integrate this fixed server with the Claude Desktop app, add the following to your app's server configuration (`claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
     "gdrive": {
       "command": "npx",
-      "args": ["-y", "@isaacphi/mcp-gdrive"],
+      "args": ["-y", "@ysl1016/mcp-gdrive"],
       "env": {
         "CLIENT_ID": "<CLIENT_ID>",
         "CLIENT_SECRET": "<CLIENT_SECRET>",
@@ -104,6 +112,14 @@ To integrate this server with the desktop app, add the following to your app's s
   }
 }
 ```
+
+## Troubleshooting
+
+If you're experiencing the "Unexpected token 'S', "Starting server" is not valid JSON" error in Claude, it means the original mcp-gdrive package is sending log messages to stdout instead of stderr, which interferes with the JSON-RPC protocol. This fixed version solves that issue by:
+
+1. Redirecting all console.log outputs to stderr
+2. Reducing verbose logging
+3. Ensuring proper separation of logs from the JSON communication channel
 
 ## License
 
